@@ -15,7 +15,7 @@ export default function TimelineSlider({ max, value, onChange }: Props) {
   useEffect(() => {
     if (playing) {
       raf.current = setInterval(() => {
-        onChange(prev => {
+        onChange((prev: number) => {
           if (prev >= max) { setPlaying(false); return max; }
           return prev + 1;
         });
