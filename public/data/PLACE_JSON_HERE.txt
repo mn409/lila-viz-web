@@ -1,0 +1,7 @@
+Place your generated JSON files here after running:
+  python preprocess_new.py
+
+Expected files:
+  AmbroseValley.json
+  GrandRift.json
+  Lockdown.json

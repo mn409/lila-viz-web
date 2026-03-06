@@ -1,0 +1,4 @@
+Place minimap images here:
+  AmbroseValley_Minimap.png
+  GrandRift_Minimap.png
+  Lockdown_Minimap.jpg
