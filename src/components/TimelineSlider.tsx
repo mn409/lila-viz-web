@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 interface Props {
   max: number;
   value: number;
-  onChange: (v: number) => void;
+  // Updated to allow both a number OR a function (like setStates do)
+  onChange: (v: number | ((prev: number) => number)) => void;
 }
 
 export default function TimelineSlider({ max, value, onChange }: Props) {
@@ -15,15 +16,21 @@ export default function TimelineSlider({ max, value, onChange }: Props) {
   useEffect(() => {
     if (playing) {
       raf.current = setInterval(() => {
+        // This now works because the interface above allows the function syntax
         onChange((prev: number) => {
-          if (prev >= max) { setPlaying(false); return max; }
+          if (prev >= max) {
+            setPlaying(false);
+            return max;
+          }
           return prev + 1;
         });
       }, 50);
     } else {
       if (raf.current) clearInterval(raf.current);
     }
-    return () => { if (raf.current) clearInterval(raf.current); };
+    return () => {
+      if (raf.current) clearInterval(raf.current);
+    };
   }, [playing, max, onChange]);
 
   const pct = max > 0 ? ((value / max) * 100).toFixed(1) : '0.0';
@@ -45,7 +52,10 @@ export default function TimelineSlider({ max, value, onChange }: Props) {
         min={0}
         max={max}
         value={value}
-        onChange={e => { setPlaying(false); onChange(Number(e.target.value)); }}
+        onChange={e => {
+          setPlaying(false);
+          onChange(Number(e.target.value));
+        }}
       />
       <span className="timeline-pct">{pct}%</span>
     </div>
